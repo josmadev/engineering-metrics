@@ -1,6 +1,6 @@
 import { QUERY_KEYS } from "@/lib/constants";
+import { getSprints } from "@/services/Sprints/__mocks__/getSprints";
 import { useQuery } from "@tanstack/react-query";
-import { getSprints } from "../services/__mocks__/sprints.service";
 
 export const useSprintsQuery = () => {
   return useQuery<string[]>({

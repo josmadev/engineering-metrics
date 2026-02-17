@@ -18,7 +18,6 @@ const SprintSummaryTable: React.FC<ISprintSummaryTable> = ({ sprintId }) => {
     return <div>No sprint summary found</div>;
   }
 
-  console.log(sprintSummary);
   return (
     <Table>
       <TableCaption>A list of your recent invoices.</TableCaption>
@@ -37,15 +36,15 @@ const SprintSummaryTable: React.FC<ISprintSummaryTable> = ({ sprintId }) => {
       </TableHeader>
       <TableBody>
         {sprintSummary.map((issue) => (
-          <TableRow key={issue.issueKey}>
-            <TableCell>{issue.issueKey}</TableCell>
-            <TableCell>{issue.issueProductKey}</TableCell>
+          <TableRow key={issue.key}>
+            <TableCell>{issue.key}</TableCell>
+            <TableCell>{issue.productIssueKey}</TableCell>
             <TableCell>{issue.type}</TableCell>
             <TableCell>{issue.summary}</TableCell>
             <TableCell>{issue.closedSprints}</TableCell>
             <TableCell>{issue.status}</TableCell>
             <TableCell>{issue.storyPoints}</TableCell>
-            <TableCell>{issue.assignee}</TableCell>
+            <TableCell>{issue.assigneeTo}</TableCell>
             <TableCell>{issue.timeSpent}</TableCell>
           </TableRow>
         ))}
