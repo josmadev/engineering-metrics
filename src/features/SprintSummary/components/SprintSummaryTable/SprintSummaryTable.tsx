@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/Table/Table";
 import { useSprintsQuery } from "../../queries/useSprintsQuery";
 
-const SprintSummaryTable: React.FC<ISprintSummaryTable> = ({ sprintId }) => {
+const SprintSummaryTable = ({ sprintId }: ISprintSummaryTable) => {
   const { data: sprintSummary } = useSprintsQuery(sprintId);
 
   if (!sprintId) return null;
@@ -54,7 +54,7 @@ const SprintSummaryTable: React.FC<ISprintSummaryTable> = ({ sprintId }) => {
 };
 
 interface ISprintSummaryTable {
-  sprintId: string | null;
+  sprintId: number | null;
 }
 
 export default SprintSummaryTable;

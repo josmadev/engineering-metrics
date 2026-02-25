@@ -1,10 +1,14 @@
 import { QUERY_KEYS } from "@/lib/constants";
-import { getSprints } from "@/services/Sprints/__mocks__/getSprints";
+import { useTeam } from "@/providers/TeamProvider/TeamProvider";
+import { getSprints } from "@/services/Sprints/getSprints";
+import type { Sprint } from "@/types/global";
 import { useQuery } from "@tanstack/react-query";
 
 export const useSprintsQuery = () => {
-  return useQuery<string[]>({
-    queryKey: [QUERY_KEYS.SPRINT_SUMMARY],
-    queryFn: getSprints,
+  const { team } = useTeam();
+  return useQuery<Sprint[]>({
+    queryKey: [QUERY_KEYS.SPRINT_SUMMARY, team],
+    queryFn: () => getSprints(team, ["ACTIVE", "FUTURE"]),
+    enabled: !!team,
   });
 };

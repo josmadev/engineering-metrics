@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTeam } from "@/providers/TeamProvider/TeamProvider";
 
 const SprintSummaryView = () => {
-  const [sprintId, setSprintId] = useState<string | null>(null);
+  const [sprintId, setSprintId] = useState<number | null>(null);
 
   const { team } = useTeam();
 

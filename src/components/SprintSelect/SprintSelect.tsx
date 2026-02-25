@@ -12,16 +12,16 @@ const SprintSelect: React.FC<ISprintSelect> = ({ sprintId, setSprintId }) => {
 
   return (
     <Select
-      value={sprintId ?? undefined}
-      onValueChange={(value) => setSprintId(value)}
+      value={sprintId?.toString() ?? undefined}
+      onValueChange={(value) => setSprintId(Number(value))}
     >
       <SelectTrigger className="w-full max-w-64">
         <SelectValue placeholder="Select a sprint" />
       </SelectTrigger>
       <SelectContent className="max-h-64 overflow-y-auto">
         {sprints?.map((sprint) => (
-          <SelectItem key={sprint} value={sprint}>
-            Sprint {sprint}
+          <SelectItem key={sprint.id} value={sprint.id.toString()}>
+            {sprint.name}
           </SelectItem>
         ))}
       </SelectContent>
@@ -30,8 +30,8 @@ const SprintSelect: React.FC<ISprintSelect> = ({ sprintId, setSprintId }) => {
 };
 
 interface ISprintSelect {
-  sprintId: string | null;
-  setSprintId: (sprintId: string | null) => void;
+  sprintId: number | null;
+  setSprintId: (sprintId: number | null) => void;
 }
 
 export default SprintSelect;
