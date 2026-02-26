@@ -5,8 +5,8 @@ export type Issue = {
   closedSprints: number;
   status: string;
   storyPoints: number;
-  assigneeTo: string;
-  timeSpent: number;
+  assignedTo: string;
+  timeSpend: string; // ISO 8601 duration format, e.g., "PT8H30M"
   productIssueKey: string;
 };
 

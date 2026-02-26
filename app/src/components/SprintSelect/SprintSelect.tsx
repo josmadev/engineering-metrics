@@ -7,7 +7,7 @@ import {
 } from "../ui/Select/Select";
 import { useSprintsQuery } from "./queries/useSprintsQuery";
 
-const SprintSelect: React.FC<ISprintSelect> = ({ sprintId, setSprintId }) => {
+export const SprintSelect = ({ sprintId, setSprintId }: SprintSelectProps) => {
   const { data: sprints } = useSprintsQuery();
 
   return (
@@ -29,9 +29,7 @@ const SprintSelect: React.FC<ISprintSelect> = ({ sprintId, setSprintId }) => {
   );
 };
 
-interface ISprintSelect {
+interface SprintSelectProps {
   sprintId: number | null;
   setSprintId: (sprintId: number | null) => void;
 }
-
-export default SprintSelect;

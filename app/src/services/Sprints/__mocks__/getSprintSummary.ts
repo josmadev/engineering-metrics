@@ -15,8 +15,8 @@ export const getSprintSummary = async (
       closedSprints: 1,
       status: "To Do",
       storyPoints: 1,
-      assigneeTo: "Jose Manuel",
-      timeSpent: 100,
+      assignedTo: "Jose Manuel",
+      timeSpend: 100,
     },
     {
       key: "FSE-124",
@@ -26,8 +26,8 @@ export const getSprintSummary = async (
       closedSprints: 1,
       status: "To Do",
       storyPoints: 1,
-      assigneeTo: "Jose Manuel",
-      timeSpent: 100,
+      assignedTo: "Jose Manuel",
+      timeSpend: 100,
     },
     {
       key: "FSE-125",
@@ -37,8 +37,8 @@ export const getSprintSummary = async (
       closedSprints: 1,
       status: "To Do",
       storyPoints: 1,
-      assigneeTo: "Jose Manuel",
-      timeSpent: 100,
+      assignedTo: "Jose Manuel",
+      timeSpend: 100,
     },
   ]);
 };

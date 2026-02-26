@@ -1,15 +1,18 @@
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/Table/Table";
 import { useSprintsQuery } from "../../queries/useSprintsQuery";
+import { formatWorkTime } from "@/lib/formatWorkTime";
+import { Badge } from "@/components/Badge/Badge";
+import { getStatusStyles } from "../../utils/getStatusStyles";
+import { Link } from "@tanstack/react-router";
 
-const SprintSummaryTable = ({ sprintId }: ISprintSummaryTable) => {
+export const SprintSummaryTable = ({ sprintId }: SprintSummaryTableProps) => {
   const { data: sprintSummary } = useSprintsQuery(sprintId);
 
   if (!sprintId) return null;
@@ -20,10 +23,9 @@ const SprintSummaryTable = ({ sprintId }: ISprintSummaryTable) => {
 
   return (
     <Table>
-      <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
-        <TableRow>
-          <TableHead className="w-[100px]">Issue Key</TableHead>
+        <TableRow className="[&_th]:text-center">
+          <TableHead>Issue Key</TableHead>
           <TableHead>Issue Product Key</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Summary</TableHead>
@@ -36,16 +38,50 @@ const SprintSummaryTable = ({ sprintId }: ISprintSummaryTable) => {
       </TableHeader>
       <TableBody>
         {sprintSummary.map((issue) => (
-          <TableRow key={issue.key}>
-            <TableCell>{issue.key}</TableCell>
-            <TableCell>{issue.productIssueKey}</TableCell>
+          <TableRow key={issue.key} className="[&_td]:text-center">
+            <TableCell>
+              <a
+                href={`https://aleaplay.atlassian.net/browse/${issue.key}`}
+                target="_blank"
+                className="text-blue-700 font-medium hover:underline"
+              >
+                {issue.key}
+              </a>
+            </TableCell>
+            <TableCell>
+              <a
+                href={`https://aleaplay.atlassian.net/browse/${issue.productIssueKey}`}
+                target="_blank"
+                className="text-blue-700 font-medium hover:underline"
+              >
+                {issue.productIssueKey}
+              </a>
+            </TableCell>
             <TableCell>{issue.type}</TableCell>
-            <TableCell>{issue.summary}</TableCell>
+            <TableCell className="max-w-xs truncate">{issue.summary}</TableCell>
             <TableCell>{issue.closedSprints}</TableCell>
-            <TableCell>{issue.status}</TableCell>
+            <TableCell>
+              <Badge
+                text={issue.status}
+                bgColor={getStatusStyles(issue.status).bg}
+                textColor={getStatusStyles(issue.status).text}
+                borderColor={getStatusStyles(issue.status).border}
+              />
+            </TableCell>
             <TableCell>{issue.storyPoints}</TableCell>
-            <TableCell>{issue.assigneeTo}</TableCell>
-            <TableCell>{issue.timeSpent}</TableCell>
+            <TableCell>
+              {issue.assignedTo ? (
+                <Badge
+                  text={issue.assignedTo}
+                  bgColor="#f1f5f9"
+                  textColor="#475569"
+                  borderColor="#cbd5e1"
+                />
+              ) : (
+                "-"
+              )}
+            </TableCell>
+            <TableCell>{formatWorkTime(issue.timeSpend)}</TableCell>
           </TableRow>
         ))}
       </TableBody>
@@ -53,8 +89,6 @@ const SprintSummaryTable = ({ sprintId }: ISprintSummaryTable) => {
   );
 };
 
-interface ISprintSummaryTable {
+interface SprintSummaryTableProps {
   sprintId: number | null;
 }
-
-export default SprintSummaryTable;

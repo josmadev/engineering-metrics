@@ -1,7 +1,7 @@
-import SprintSelect from "@/components/SprintSelect/SprintSelect";
-import SprintSummaryTable from "../components/SprintSummaryTable/SprintSummaryTable";
 import { useEffect, useState } from "react";
 import { useTeam } from "@/providers/TeamProvider/TeamProvider";
+import { SprintSelect } from "@/components/SprintSelect/SprintSelect";
+import { SprintSummaryTable } from "../components/SprintSummaryTable/SprintSummaryTable";
 
 const SprintSummaryView = () => {
   const [sprintId, setSprintId] = useState<number | null>(null);
