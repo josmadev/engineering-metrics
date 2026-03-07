@@ -1,5 +1,4 @@
 import { ToggleTeam } from "@/components/ToggleTeam/ToggleTeam";
-import { ToggleTheme } from "@/components/ToggleTheme/ToggleTheme";
 import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
@@ -12,7 +11,6 @@ const RootLayout = () => {
         </Link>{" "}
         <div className="flex gap-2 items-center">
           <ToggleTeam />
-          <ToggleTheme />
         </div>
       </div>
       <hr />

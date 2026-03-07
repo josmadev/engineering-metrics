@@ -3,7 +3,7 @@ import { getSprintSummary } from "@/services/Sprints/getSprintSummary";
 import type { Issue } from "@/types/global";
 import { useQuery } from "@tanstack/react-query";
 
-export const useSprintsQuery = (sprintId: number | null) => {
+export const useSprintsQuery = (sprintId?: number) => {
   return useQuery<Issue[]>({
     queryKey: [QUERY_KEYS.SPRINT_SUMMARY, sprintId],
     queryFn: () => getSprintSummary(sprintId),

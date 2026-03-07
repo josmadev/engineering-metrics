@@ -1,3 +1,4 @@
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
   Select,
   SelectContent,
@@ -7,13 +8,22 @@ import {
 } from "../ui/Select/Select";
 import { useSprintsQuery } from "./queries/useSprintsQuery";
 
-export const SprintSelect = ({ sprintId, setSprintId }: SprintSelectProps) => {
+export const SprintSelect = () => {
   const { data: sprints } = useSprintsQuery();
+
+  const sprintId = useSearch({ from: "/sprint-summary" }).sprintId;
+
+  const navigate = useNavigate({ from: "/sprint-summary" });
 
   return (
     <Select
       value={sprintId?.toString() ?? undefined}
-      onValueChange={(value) => setSprintId(Number(value))}
+      onValueChange={(value) => {
+        navigate({
+          to: "/sprint-summary",
+          search: { sprintId: Number(value) },
+        });
+      }}
     >
       <SelectTrigger className="w-full max-w-64">
         <SelectValue placeholder="Select a sprint" />
@@ -28,8 +38,3 @@ export const SprintSelect = ({ sprintId, setSprintId }: SprintSelectProps) => {
     </Select>
   );
 };
-
-interface SprintSelectProps {
-  sprintId: number | null;
-  setSprintId: (sprintId: number | null) => void;
-}

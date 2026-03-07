@@ -6,9 +6,19 @@ import {
   DropdownMenuTrigger,
 } from "../ui/DropdownMenu/DropdownMenu";
 import { Button } from "../ui/Button/button";
+import { useNavigate } from "@tanstack/react-router";
 
 export const ToggleTeam = () => {
   const { team, handleSetTeam } = useTeam();
+  const pathname = window.location.pathname;
+  const navigate = useNavigate();
+
+  const handleTeamChange = (newTeam: "FSE" | "BSE") => {
+    handleSetTeam(newTeam);
+    navigate({
+      to: pathname,
+    });
+  };
 
   return (
     <DropdownMenu>
@@ -19,10 +29,10 @@ export const ToggleTeam = () => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => handleSetTeam("FSE")}>
+        <DropdownMenuItem onClick={() => handleTeamChange("FSE")}>
           Frontend Team
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => handleSetTeam("BSE")}>
+        <DropdownMenuItem onClick={() => handleTeamChange("BSE")}>
           Backend Team
         </DropdownMenuItem>
       </DropdownMenuContent>

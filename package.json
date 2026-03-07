@@ -3,6 +3,6 @@
   "private": true,
   "scripts": {
     "app:run": "cd app && pnpm dev",
-    "docker:run": "docker run -p 8080:8080 --env-file .env rdiezdev/sprint-metrics:latest"
+    "docker:run": "docker run -p 8080:8080 --env-file .env rdiezdev/sprint-metrics:1.3"
   }
 }

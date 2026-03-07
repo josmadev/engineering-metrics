@@ -1,7 +1,7 @@
 import { apiClient } from "@/lib/apiClient";
 import type { Issue } from "@/types/global";
 
-export const getSprintSummary = async (sprintId: number | null) => {
+export const getSprintSummary = async (sprintId?: number) => {
   if (!sprintId) {
     throw new Error("Sprint is required");
   }
