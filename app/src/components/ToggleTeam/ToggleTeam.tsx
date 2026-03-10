@@ -10,14 +10,11 @@ import { useNavigate } from "@tanstack/react-router";
 
 export const ToggleTeam = () => {
   const { team, handleSetTeam } = useTeam();
-  const pathname = window.location.pathname;
   const navigate = useNavigate();
 
   const handleTeamChange = (newTeam: "FSE" | "BSE") => {
     handleSetTeam(newTeam);
-    navigate({
-      to: pathname,
-    });
+    navigate({ to: "/" });
   };
 
   return (
