@@ -6,3 +6,10 @@ export const TEAMS = {
 export const QUERY_KEYS = {
   SPRINT_SUMMARY: "sprint-summary",
 };
+
+export const ROLES = {
+  JUNIOR: "Junior",
+  MID: "Mid",
+  SENIOR: "Senior",
+  LEAD: "Lead",
+};

@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/Select/Select";
-import { useSprintsQuery } from "../../queries/useSprintsQuery";
+import { useSprintSummaryQuery } from "../../../../queries/useSprintSummaryQuery";
 import { useSearch } from "@tanstack/react-router";
 
 export const AssigneeSelect = (props: AssigneeSelectProps) => {
@@ -13,7 +13,7 @@ export const AssigneeSelect = (props: AssigneeSelectProps) => {
 
   const sprintId = useSearch({ from: "/sprint-summary" }).sprintId;
 
-  const { data } = useSprintsQuery(sprintId);
+  const { data } = useSprintSummaryQuery(sprintId);
 
   const getAssigneesFromList = () => {
     if (!data) return [];

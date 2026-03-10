@@ -10,17 +10,21 @@ import { useSprintsQuery } from "./queries/useSprintsQuery";
 
 export const SprintSelect = () => {
   const { data: sprints } = useSprintsQuery();
+  const pathname = window.location.pathname;
 
-  const sprintId = useSearch({ from: "/sprint-summary" }).sprintId;
+  const from =
+    pathname === "/sprint-summary" ? "/sprint-summary" : "/sprint-metrics";
 
-  const navigate = useNavigate({ from: "/sprint-summary" });
+  const sprintId = useSearch({ from }).sprintId;
+
+  const navigate = useNavigate({ from });
 
   return (
     <Select
       value={sprintId?.toString() ?? undefined}
       onValueChange={(value) => {
         navigate({
-          to: "/sprint-summary",
+          to: from,
           search: { sprintId: Number(value) },
         });
       }}

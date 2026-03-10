@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SprintSummaryRouteImport } from './routes/sprint-summary'
+import { Route as SprintMetricsRouteImport } from './routes/sprint-metrics'
 import { Route as IndexRouteImport } from './routes/index'
 
 const SprintSummaryRoute = SprintSummaryRouteImport.update({
   id: '/sprint-summary',
   path: '/sprint-summary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SprintMetricsRoute = SprintMetricsRouteImport.update({
+  id: '/sprint-metrics',
+  path: '/sprint-metrics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,27 +31,31 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/sprint-metrics': typeof SprintMetricsRoute
   '/sprint-summary': typeof SprintSummaryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/sprint-metrics': typeof SprintMetricsRoute
   '/sprint-summary': typeof SprintSummaryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/sprint-metrics': typeof SprintMetricsRoute
   '/sprint-summary': typeof SprintSummaryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sprint-summary'
+  fullPaths: '/' | '/sprint-metrics' | '/sprint-summary'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sprint-summary'
-  id: '__root__' | '/' | '/sprint-summary'
+  to: '/' | '/sprint-metrics' | '/sprint-summary'
+  id: '__root__' | '/' | '/sprint-metrics' | '/sprint-summary'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  SprintMetricsRoute: typeof SprintMetricsRoute
   SprintSummaryRoute: typeof SprintSummaryRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/sprint-summary'
       fullPath: '/sprint-summary'
       preLoaderRoute: typeof SprintSummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sprint-metrics': {
+      id: '/sprint-metrics'
+      path: '/sprint-metrics'
+      fullPath: '/sprint-metrics'
+      preLoaderRoute: typeof SprintMetricsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  SprintMetricsRoute: SprintMetricsRoute,
   SprintSummaryRoute: SprintSummaryRoute,
 }
 export const routeTree = rootRouteImport

@@ -27,3 +27,36 @@ export function formatWorkTime(isoDuration: string): string {
 
   return parts.length > 0 ? parts.join(" ") : "0s";
 }
+
+export function parseWorkTimeToMinutes(isoDuration: string): number {
+  // 1. Extraer valores con un Regex seguro
+  const regex = /P(?:(\d+)D)?T(?:(\d+)H)?(?:(\d+)M)?/;
+  const matches = isoDuration.match(regex);
+
+  if (!matches) return 0;
+
+  // 2. Parsear a números (Días del ISO suelen ser de 24h)
+  const d = parseInt(matches[1] || "0", 10);
+  const h = parseInt(matches[2] || "0", 10);
+  const m = parseInt(matches[3] || "0", 10);
+
+  // 3. Convertir todo a minutos totales
+  return d * 24 * 60 + h * 60 + m;
+}
+
+export function formatMinutesToTime(totalMinutes: number): string {
+  if (totalMinutes <= 0) return "0m";
+
+  // Aplicar regla: 1 día laboral = 8 horas (480 min)
+  const workDays = Math.floor(totalMinutes / 480);
+  const remainingMins = totalMinutes % 480;
+  const hours = Math.floor(remainingMins / 60);
+  const minutes = remainingMins % 60;
+
+  const parts: string[] = [];
+  if (workDays > 0) parts.push(`${workDays}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0) parts.push(`${minutes}m`);
+
+  return parts.length > 0 ? parts.join(" ") : "0m";
+}
