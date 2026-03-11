@@ -18,6 +18,7 @@ import {
   TOTAL_GROOMING_HOURS,
 } from "../utils/hardcodedValues";
 import { Button } from "@/components/ui/Button/button";
+import { FINISHED_STATUSES } from "@/lib/constants";
 
 const SprintMetrics = () => {
   const { team } = useTeam();
@@ -37,7 +38,9 @@ const SprintMetrics = () => {
       const timeSpent = parseWorkTimeToMinutes(issue.timeSpend || "PT0M");
 
       if (dataByAssignee[assignee]) {
-        dataByAssignee[assignee].storyPoints += storyPoints;
+        if (FINISHED_STATUSES.includes(issue.status)) {
+          dataByAssignee[assignee].storyPoints += storyPoints;
+        }
         dataByAssignee[assignee].timeSpent += timeSpent;
       } else {
         dataByAssignee[assignee] = {
@@ -54,7 +57,7 @@ const SprintMetrics = () => {
     const dev = DEV_ROLES[assignee as keyof typeof DEV_ROLES];
     const role = dev?.role || "Unknown";
 
-    const holidays = assignee === "Jose Manuel González Risco" ? 5 : 0;
+    const holidays = dev?.holidays || 0;
     const totalWorkingDays = SPRINT_DURATION_DAYS - holidays;
 
     // round up to the nearest quarter (0.25) instead of whole numbers
@@ -247,79 +250,89 @@ const SprintMetrics = () => {
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Sprint Metrics</h1>
-        <Button onClick={downloadCSV} className="bg-blue-600 hover:bg-blue-700">
-          Download CSV
-        </Button>
+        {data && (
+          <Button
+            onClick={downloadCSV}
+            variant="secondary"
+            className="cursor-pointer"
+          >
+            Download CSV
+          </Button>
+        )}
       </div>
       <SprintSelect key={team} />
 
-      {/* Team Capacity Summary */}
-      <div className="border p-4 rounded shadow bg-blue-50">
-        <h2 className="text-xl font-semibold mb-2">Team Capacity</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p className="font-medium">Total Story Points Capacity</p>
-            <p className="text-2xl font-bold text-blue-600">
-              {teamCapacity.totalStoryPointsCapacity}
-            </p>
+      {data && (
+        <>
+          {/* Team Capacity Summary */}
+          <div className="border p-4 rounded shadow bg-blue-50">
+            <h2 className="text-xl font-semibold mb-2">Team Capacity</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="font-medium">Total Story Points Capacity</p>
+                <p className="text-2xl font-bold text-blue-600">
+                  {teamCapacity.totalStoryPointsCapacity}
+                </p>
+              </div>
+              <div>
+                <p className="font-medium">Total Time Capacity</p>
+                <p className="text-2xl font-bold text-blue-600">
+                  {formatMinutesToTime(teamCapacity.totalTimeCapacityMinutes)}
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <p className="font-medium">Total Time Capacity</p>
-            <p className="text-2xl font-bold text-blue-600">
-              {formatMinutesToTime(teamCapacity.totalTimeCapacityMinutes)}
-            </p>
-          </div>
-        </div>
-      </div>
 
-      {/* Team Results Summary */}
-      <div className="border p-4 rounded shadow bg-green-50">
-        <h2 className="text-xl font-semibold mb-2">Team Results</h2>
-        <div className="grid grid-cols-2 gap-4 mb-4">
-          <div>
-            <p className="font-medium">Total Story Points Completed</p>
-            <p className="text-2xl font-bold text-green-600">
-              {teamResults.totalStoryPoints}
-            </p>
+          {/* Team Results Summary */}
+          <div className="border p-4 rounded shadow bg-green-50">
+            <h2 className="text-xl font-semibold mb-2">Team Results</h2>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <p className="font-medium">Total Story Points Completed</p>
+                <p className="text-2xl font-bold text-green-600">
+                  {teamResults.totalStoryPoints}
+                </p>
+              </div>
+              <div>
+                <p className="font-medium">Total Time Spent</p>
+                <p className="text-2xl font-bold text-green-600">
+                  {formatMinutesToTime(teamResults.totalTimeSpent)}
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <p className="font-medium">Story Points Completion</p>
+                <p
+                  className={`text-2xl font-bold ${
+                    storyPointsPercentage >= 100
+                      ? "text-red-600"
+                      : storyPointsPercentage >= 80
+                        ? "text-yellow-600"
+                        : "text-green-600"
+                  }`}
+                >
+                  {storyPointsPercentage}%
+                </p>
+              </div>
+              <div>
+                <p className="font-medium">Time Tracking</p>
+                <p
+                  className={`text-2xl font-bold ${
+                    timeTrackingPercentage >= 100
+                      ? "text-red-600"
+                      : timeTrackingPercentage >= 80
+                        ? "text-yellow-600"
+                        : "text-green-600"
+                  }`}
+                >
+                  {timeTrackingPercentage}%
+                </p>
+              </div>
+            </div>
           </div>
-          <div>
-            <p className="font-medium">Total Time Spent</p>
-            <p className="text-2xl font-bold text-green-600">
-              {formatMinutesToTime(teamResults.totalTimeSpent)}
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div>
-            <p className="font-medium">Story Points Completion</p>
-            <p
-              className={`text-2xl font-bold ${
-                storyPointsPercentage >= 100
-                  ? "text-red-600"
-                  : storyPointsPercentage >= 80
-                    ? "text-yellow-600"
-                    : "text-green-600"
-              }`}
-            >
-              {storyPointsPercentage}%
-            </p>
-          </div>
-          <div>
-            <p className="font-medium">Time Tracking</p>
-            <p
-              className={`text-2xl font-bold ${
-                timeTrackingPercentage >= 100
-                  ? "text-red-600"
-                  : timeTrackingPercentage >= 80
-                    ? "text-yellow-600"
-                    : "text-green-600"
-              }`}
-            >
-              {timeTrackingPercentage}%
-            </p>
-          </div>
-        </div>
-      </div>
+        </>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {Object.entries(parseDataByAssignee())

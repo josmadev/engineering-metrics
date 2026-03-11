@@ -13,3 +13,5 @@ export const ROLES = {
   SENIOR: "Senior",
   LEAD: "Lead",
 };
+
+export const FINISHED_STATUSES = ["Done", "To deploy", "Deployed"];

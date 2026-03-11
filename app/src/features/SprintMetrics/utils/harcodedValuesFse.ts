@@ -5,21 +5,25 @@ export const DEV_ROLES = {
     role: ROLES.MID,
     attendGrooming: false,
     mentory: 0,
+    holidays: 0,
   },
   "Andrés Valle": {
     role: ROLES.SENIOR,
     attendGrooming: false,
     mentory: 2,
+    holidays: 0,
   },
   "Santiago Italo Bocco": {
     role: ROLES.MID,
     attendGrooming: false,
     mentory: 0,
+    holidays: 0,
   },
   "Jose Manuel González Risco": {
     role: ROLES.LEAD,
     attendGrooming: true,
     mentory: 2,
+    holidays: 5,
   },
 };
 
